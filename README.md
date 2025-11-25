@@ -1,44 +1,44 @@
-# XV Años de Ariadna Carolina - FORO 7
+# XV Años de Flor Isabel - FORO 7
 
-Invitación web y contrato digital para la celebración de los XV años de Ariadna Carolina Vallejo Medina.
+Invitación web y contrato digital para la celebración de los XV años de Flor Isabel Yebra Luna.
 
 ## 🌐 Enlaces
 
 ### 📱 Invitación Web
-**URL:** https://arturocruzarm.github.io/xv-ariadna/
+**URL:** https://arturocruzarm.github.io/xv-anos-flor-isabel/
 
 ### 📄 Contrato de Servicios
-**URL:** https://arturocruzarm.github.io/xv-ariadna/contrato/
+**URL:** https://arturocruzarm.github.io/xv-anos-flor-isabel/contrato/
 
 ## 📅 Detalles del Evento
-- **Fecha:** 21 de Diciembre 2025
-- **Quinceañera:** Ariadna Carolina Vallejo Medina (CARI)
-- **Misa:** 1:00 PM - Parroquia de Nuestra Señora de la Anunciación, Col. Santa María del Granjero
-- **Recepción:** Salón Cerro de la Bufa, Col. Lomas de Jerez, León, Guanajuato
+- **Fecha:** 7 de Febrero 2026
+- **Quinceañera:** Flor Isabel Yebra Luna
+- **Sesión:** 11 de Enero 2026 - Santa Cecilia
+- **Misa:** 12:00 PM - Parroquia Santiago Apóstol, Silao, Guanajuato
+- **Recepción:** 3:00 PM - Quinta San Javier, Silao, Guanajuato
 
 ## 💰 Servicios Contratados
-- **Paquete Básico:** $4,400 MXN
-- **Servicios Adicionales:** $1,000 MXN (Dron + Invitación Web)
-- **TOTAL:** $5,400 MXN
+- **Paquete de Fotografía y Video:** $6,500.00 MXN
+- **Anticipo Pagado:** $2,000.00 MXN
+- **Saldo Pendiente:** $4,500.00 MXN
 
 ## 🎵 Configuración de Música
 
 Para que la música funcione correctamente en la invitación web:
 
-1. Descargar la canción **"Mikrokosmos" de BTS** en formato MP3
-2. Renombrar el archivo a: `Mikrokosmos.mp3`
+1. Descargar la canción deseada en formato MP3
+2. Renombrar el archivo a: `musica.mp3`
 3. Colocar el archivo en la raíz del repositorio (junto a `index.html`)
 4. Hacer commit y push:
    ```bash
-   git add Mikrokosmos.mp3
+   git add musica.mp3
    git commit -m "Agregar música de fondo"
    git push
    ```
 
 ### Nota Importante sobre Derechos de Autor
-- La canción "Mikrokosmos" es propiedad de BTS y Big Hit Music
-- Solo para uso personal en la USB
-- No subir el archivo de audio al repositorio público
+- Solo para uso personal
+- No subir archivos con derechos de autor al repositorio público
 - La versión en línea debe usar música libre de derechos
 
 ## 📱 Características de la Invitación
@@ -73,16 +73,17 @@ Para que la música funcione correctamente en la invitación web:
 ## 📂 Estructura del Repositorio
 
 ```
-xv-ariadna/
+xv-anos-flor-isabel/
 ├── index.html          # Invitación web
 ├── contrato/
 │   └── index.html      # Contrato de servicios
-├── Mikrokosmos.mp3     # Música de fondo (no incluido, agregar manualmente)
+├── favicon.svg         # Icono del sitio
+├── musica.mp3          # Música de fondo (agregar manualmente)
 └── README.md           # Este archivo
 ```
 
 ---
 
 **Desarrollado por:** FORO 7 Fotografía y Video
-**Cliente:** Rosa Elena Medina Bermúdez
-**Contacto:** 477-269-9029
+**Clientes:** Antonio Yebra Loredo / María Socorro Luna Barroso
+**Contacto:** 472-112-0166 / 477-269-9029
