@@ -18,9 +18,12 @@ Invitación web y contrato digital para la celebración de los XV años de Flor 
 - **Recepción:** 3:00 PM - Quinta San Javier, Silao, Guanajuato
 
 ## 💰 Servicios Contratados
-- **Paquete de Fotografía y Video:** $6,500.00 MXN
+- **Paquete Premium de Fotografía y Video:** $8,500.00 MXN
+- **Viáticos a Silao:** $200.00 MXN
+- **Invitación Web Personalizada:** $500.00 MXN
+- **TOTAL:** $9,200.00 MXN
 - **Anticipo Pagado:** $2,000.00 MXN
-- **Saldo Pendiente:** $4,500.00 MXN
+- **Saldo Pendiente:** $7,200.00 MXN
 
 ## 🎵 Configuración de Música
 
