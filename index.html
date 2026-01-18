@@ -24,6 +24,84 @@
             --texto-suave: #7a6a6a;
         }
 
+        /* Pantalla de entrada */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--rosa-bebe), var(--rosa-suave));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            cursor: pointer;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .welcome-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .welcome-crown {
+            font-size: 4rem;
+            color: var(--dorado);
+            margin-bottom: 30px;
+            animation: float-crown 3s ease-in-out infinite;
+        }
+
+        @keyframes float-crown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .welcome-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: var(--dorado);
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .welcome-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 10vw, 5rem);
+            color: var(--dorado-oscuro);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .welcome-tap {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--texto-suave);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: pulse-tap 2s ease-in-out infinite;
+            padding: 15px 40px;
+            border: 2px solid var(--dorado-claro);
+            border-radius: 30px;
+            background: rgba(255,255,255,0.5);
+        }
+
+        @keyframes pulse-tap {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .welcome-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--dorado);
+            margin-top: 30px;
+            letter-spacing: 2px;
+        }
+
         body {
             font-family: 'Cormorant Garamond', serif;
             background: var(--rosa-bebe);
@@ -680,6 +758,15 @@
     </style>
 </head>
 <body>
+    <!-- Pantalla de bienvenida -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-crown">&#128081;</div>
+        <h1 class="welcome-title">Mis Quince Años</h1>
+        <h2 class="welcome-name">Flor Isabel</h2>
+        <p class="welcome-tap">Toca para entrar</p>
+        <p class="welcome-date">7 de Febrero 2026</p>
+    </div>
+
     <!-- Destellos flotantes -->
     <div class="sparkles" id="sparkles"></div>
 
@@ -703,7 +790,7 @@
             <!-- Encabezado -->
             <div class="header-section">
                 <div class="crown-icon">&#9733;</div>
-                <h2 class="once-upon">Erase una vez...</h2>
+                <h2 class="once-upon">Érase una vez...</h2>
                 <p class="story-begins">mi historia comienza</p>
 
                 <div class="golden-divider"><span>&#10047;</span></div>
@@ -719,7 +806,7 @@
                 <div class="countdown" id="countdown">
                     <div class="countdown-item">
                         <span class="countdown-number" id="days">0</span>
-                        <span class="countdown-label">Dias</span>
+                        <span class="countdown-label">Días</span>
                     </div>
                     <div class="countdown-item">
                         <span class="countdown-number" id="hours">0</span>
@@ -741,19 +828,19 @@
             <!-- Mensaje principal -->
             <div class="main-message">
                 <p>
-                    Una niña soñadora que crecio creyendo en la magia,<br>
+                    Una niña soñadora que creció creyendo en la magia,<br>
                     en los cuentos de hadas y en el amor bonito...
                 </p>
                 <p>
-                    Hoy ese sueño continua,<br>
-                    y con gran alegria quiero compartirlo contigo.
+                    Hoy ese sueño continúa,<br>
+                    y con gran alegría quiero compartirlo contigo.
                 </p>
                 <p>
-                    Como no recordar que hace 15 años nacio<br>
-                    <span class="highlight-text">la Flor mas hermosa de este hogar.</span><br>
-                    Por eso te queremos invitar a su celebracion<br>
-                    con mucha alegria y amor,<br>
-                    dando gracias a Dios por tan hermosa bendicion.
+                    Cómo no recordar que hace 15 años nació<br>
+                    <span class="highlight-text">la Flor más hermosa de este hogar.</span><br>
+                    Por eso te queremos invitar a su celebración<br>
+                    con mucha alegría y amor,<br>
+                    dando gracias a Dios por tan hermosa bendición.
                 </p>
             </div>
 
@@ -762,27 +849,27 @@
             <!-- Sobre Mí -->
             <div class="section">
                 <div class="about-me">
-                    <h2 class="section-title">Sobre Mi</h2>
+                    <h2 class="section-title">Sobre Mí</h2>
                     <p class="about-text">Mi nombre es <strong>Flor Isabel Yebra Luna</strong></p>
                     <p class="about-text">Mis seres queridos me llaman</p>
                     <span class="nickname">Florentina</span>
 
                     <div class="quote-box">
-                        <p>"La flor que florece en la adversidad es la mas rara y hermosa de todas"</p>
+                        <p>"La flor que florece en la adversidad es la más rara y hermosa de todas"</p>
                         <p class="quote-author">- Mulan</p>
                     </div>
 
                     <p class="about-text">
-                        Para mi, cumplir quince años significa dar un paso mas en mi vida
+                        Para mí, cumplir quince años significa dar un paso más en mi vida
                         y comenzar una nueva etapa llena de cambios, aprendizajes y sueños.
-                        Es crecer, madurar poco a poco y descubrir quien quiero ser,
+                        Es crecer, madurar poco a poco y descubrir quién quiero ser,
                         siempre agradecida por todo lo que he vivido.
                     </p>
                     <p class="about-text">
-                        Tambien significa seguir este camino acompañada de las personas que quiero
+                        También significa seguir este camino acompañada de las personas que quiero
                         y que me quieren, quienes me apoyan, me cuidan y hacen que cada momento sea especial.
                         Cumplir quince años es una oportunidad para valorar lo que tengo,
-                        agradecer y seguir adelante con ilusion y esperanza.
+                        agradecer y seguir adelante con ilusión y esperanza.
                     </p>
                 </div>
             </div>
@@ -792,14 +879,14 @@
                 <h2 class="section-title">Detalles del Evento</h2>
                 <div class="event-details">
                     <div class="event-card">
-                        <h4>Misa de Accion de Gracias</h4>
+                        <h4>Misa de Acción de Gracias</h4>
                         <p class="time">12:00 PM</p>
-                        <p class="location">Parroquia Santiago Apostol<br>Silao, Guanajuato</p>
+                        <p class="location">Parroquia Santiago Apóstol<br>Silao, Guanajuato</p>
                         <a href="https://maps.google.com/?q=Parroquia+Santiago+Apóstol+Silao+Guanajuato" class="map-btn" target="_blank">Ver Mapa</a>
                     </div>
 
                     <div class="event-card">
-                        <h4>Recepcion</h4>
+                        <h4>Recepción</h4>
                         <p class="time">3:00 PM</p>
                         <p class="location">Quinta San Javier<br>Silao, Guanajuato</p>
                         <a href="https://maps.google.com/?q=Quinta+San+Javier+Silao+Guanajuato" class="map-btn" target="_blank">Ver Mapa</a>
@@ -820,7 +907,7 @@
                 <div class="family-card">
                     <h4>Mis Padres</h4>
                     <p>Antonio Yebra Loredo</p>
-                    <p>Maria Socorro Luna Barroso</p>
+                    <p>María Socorro Luna Barroso</p>
                 </div>
             </div>
 
@@ -834,23 +921,23 @@
                     <h4>A mis padres y abuelos</h4>
                     <p>
                         Les agradezco por cuidarme desde pequeña con tanto amor,
-                        por enseñarme valores, darme educacion y brindarme siempre
+                        por enseñarme valores, darme educación y brindarme siempre
                         lo mejor que han podido para ayudarme a crecer y convertirme en una mejor persona.
                     </p>
                     <p style="margin-top: 15px;">
-                        Tambien les doy gracias por su apoyo, sus consejos, su tiempo y su cariño,
-                        por cada viaje y todos los recuerdos tan bonitos que guardo en mi corazon.
+                        También les doy gracias por su apoyo, sus consejos, su tiempo y su cariño,
+                        por cada viaje y todos los recuerdos tan bonitos que guardo en mi corazón.
                         Gracias por hacer posible esta fiesta de XV años,
-                        por esforzarse para que sea una celebracion divertida, especial
-                        y llena de momentos que me gustan y que nunca olvidare.
+                        por esforzarse para que sea una celebración divertida, especial
+                        y llena de momentos que me gustan y que nunca olvidaré.
                     </p>
                 </div>
 
                 <div class="guest-message">
                     <p>
-                        Gracias por acompañarme en un dia tan especial.<br>
-                        Su presencia, cariño y sonrisas hacen que este momento sea aun mas magico.<br>
-                        Me llevo este recuerdo en el corazon.
+                        Gracias por acompañarme en un día tan especial.<br>
+                        Su presencia, cariño y sonrisas hacen que este momento sea aún más mágico.<br>
+                        Me llevo este recuerdo en el corazón.
                     </p>
                 </div>
             </div>
@@ -860,7 +947,7 @@
             <!-- Confirmación -->
             <div class="section">
                 <div class="confirmation-section">
-                    <h2 class="section-title">Confirmacion de Asistencia</h2>
+                    <h2 class="section-title">Confirmación de Asistencia</h2>
                     <p class="confirmation-text">Por favor confirma tu asistencia</p>
                     <a href="https://wa.me/5214721120166?text=Hola,%20confirmo%20mi%20asistencia%20a%20los%20XV%20años%20de%20Flor%20Isabel" class="whatsapp-btn" target="_blank">
                         Confirmar por WhatsApp
@@ -899,7 +986,7 @@
             const distance = eventDate - now;
 
             if (distance < 0) {
-                document.getElementById('countdown').innerHTML = '<p style="font-size: 1.5rem; color: var(--dorado);">¡El gran dia ha llegado!</p>';
+                document.getElementById('countdown').innerHTML = '<p style="font-size: 1.5rem; color: var(--dorado);">¡El gran día ha llegado!</p>';
                 return;
             }
 
@@ -917,27 +1004,24 @@
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Control de música
+        // Pantalla de bienvenida y música
+        const welcomeScreen = document.getElementById('welcomeScreen');
         const musicControl = document.getElementById('musicControl');
         const music = document.getElementById('backgroundMusic');
         let isPlaying = false;
-        let musicStarted = false;
 
-        function startMusic() {
-            if (!musicStarted) {
-                music.play().then(() => {
-                    isPlaying = true;
-                    musicStarted = true;
-                    musicControl.classList.remove('paused');
-                }).catch((error) => {
-                    console.log('No se pudo reproducir la música:', error);
-                });
-                document.removeEventListener('click', startMusic);
-            }
-        }
+        // Al hacer clic en la pantalla de bienvenida
+        welcomeScreen.addEventListener('click', function() {
+            welcomeScreen.classList.add('hidden');
+            music.play().then(() => {
+                isPlaying = true;
+                musicControl.classList.remove('paused');
+            }).catch((error) => {
+                console.log('No se pudo reproducir la música:', error);
+            });
+        });
 
-        document.addEventListener('click', startMusic);
-
+        // Control del botón de música
         musicControl.addEventListener('click', function(e) {
             e.stopPropagation();
             if (isPlaying) {
@@ -948,7 +1032,6 @@
                 music.play().then(() => {
                     musicControl.classList.remove('paused');
                     isPlaying = true;
-                    musicStarted = true;
                 });
             }
         });
