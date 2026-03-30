@@ -752,10 +752,6 @@
         let currentPhotoIndex = 0;
         // Cargar selecciones predeterminadas
         let selections = typeof defaultSelections !== 'undefined' ? {...defaultSelections} : {};
-        const STORAGE_KEY = 'xv_flor_isabel';
-        // Cargar desde localStorage
-        try { var _saved = localStorage.getItem(STORAGE_KEY); if (_saved) selections = Object.assign(selections, JSON.parse(_saved)); } catch(e) {}
-        function saveSelections() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(selections)); } catch(e) {} }
         let activeFilter = 'all';
 
         // Las fotos se cargan automáticamente desde photos_list.js
@@ -845,11 +841,9 @@
 
                 if (index > -1) {
                     categories.splice(index, 1);
-                    saveSelections();
                     this.classList.remove('selected');
                 } else {
                     categories.push(option);
-                    saveSelections();
                     this.classList.add('selected');
                 }
 
@@ -865,7 +859,6 @@
                 selections[photo.name] = { categories: [], notes: '' };
             }
             selections[photo.name].notes = this.value;
-            saveSelections();
         });
 
         // Actualizar estadísticas
@@ -1017,7 +1010,5 @@
     <script src="photos_list.js"></script>
     <script src="default_selections.js"></script>
     <script src="visitas.js?v=1"></script>
-<script src="js/selector-sb-inline.js"></script>
-<script src="js/foro7-footer.js"></script>
 </body>
 </html>
