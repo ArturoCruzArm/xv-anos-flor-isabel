@@ -904,76 +904,71 @@
         });
 
         // Exportar selección
-        function exportarSeleccion() {
+        async function exportarSeleccion() {
             const stats = updateStats();
+            const SB_URL  = 'https://nzpujmlienzfetqcgsxz.supabase.co';
+            const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56cHVqbWxpZW56ZmV0cWNnc3h6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2ODYzMzYsImV4cCI6MjA5MDI2MjMzNn0.xl3lsb-KYj5tVLKTnzpbsdEGoV9ySnswH4eyRuyEH1s';
+            const EVENTO_ID = '1bcbb7fd-f80d-44f2-a97d-5334b8f64b0c';
+            const H = { apikey: SB_ANON, Authorization: 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' };
 
-            // Crear mensaje de resumen
-            let mensaje = '💕 SELECCIÓN DE FOTOS - XV AÑOS FLOR ISABEL\n';
-            mensaje += '═══════════════════════════════════════\n\n';
-            mensaje += `📊 RESUMEN GENERAL:\n`;
-            mensaje += `   Total de fotos: ${photos.length}\n`;
-            mensaje += `   🖼️  Para ampliación: ${stats.ampliacion}\n`;
-            mensaje += `   📸 Para impresión: ${stats.impresion}\n`;
-            mensaje += `   📱 Para redes sociales: ${stats.redes_sociales}\n`;
-            mensaje += `   🌐 Para invitaciones web: ${stats.invitaciones_web}\n`;
-            mensaje += `   ❌ Descartadas: ${stats.descartada}\n\n`;
-
-            // Detalles por categoría
-            const categorias = {
-                ampliacion: '🖼️  AMPLIACIÓN',
-                impresion: '📸 IMPRESIÓN',
-                redes_sociales: '📱 REDES SOCIALES',
-                invitaciones_web: '🌐 INVITACIONES WEB',
-                descartada: '❌ DESCARTADAS'
-            };
-
-            Object.keys(categorias).forEach(categoria => {
-                const fotosCategoria = [];
-                photos.forEach((photo, index) => {
-                    const selection = selections[photo.name];
-                    if (selection && selection.categories && selection.categories.includes(categoria)) {
-                        fotosCategoria.push({
-                            numero: index + 1,
-                            nombre: photo.filename
-                        });
-                    }
-                });
-
-                if (fotosCategoria.length > 0) {
-                    mensaje += `${categorias[categoria]}:\n`;
-                    fotosCategoria.forEach(foto => {
-                        mensaje += `   • #${foto.numero} - ${foto.nombre}\n`;
-                    });
-                    mensaje += `   Total: ${fotosCategoria.length}\n\n`;
-                }
-            });
-
-            // Agregar comentarios si hay
-            const fotosConComentarios = [];
+            // Construir detalle completo para Supabase
+            const detalle = {};
             photos.forEach((photo, index) => {
-                const selection = selections[photo.name];
-                if (selection && selection.notes && selection.notes.trim() !== '') {
-                    fotosConComentarios.push(`   📸 Foto #${index + 1}: ${selection.notes}`);
+                const sel = selections[photo.name];
+                if (sel && (sel.categories.length > 0 || (sel.notes && sel.notes.trim()))) {
+                    detalle[photo.name] = { numero: index + 1, ...sel };
                 }
             });
 
-            if (fotosConComentarios.length > 0) {
-                mensaje += `\n💬 COMENTARIOS Y EDICIONES:\n`;
-                mensaje += fotosConComentarios.join('\n') + '\n';
+            // Guardar en Supabase
+            let guardado = false;
+            try {
+                const existing = await fetch(`${SB_URL}/rest/v1/eventos_config?evento_id=eq.${EVENTO_ID}&seccion=eq.seleccion_fotos&select=id`, { headers: H });
+                const exData = await existing.json();
+                const payload = {
+                    evento_id: EVENTO_ID,
+                    seccion: 'seleccion_fotos',
+                    datos: { resumen: stats, detalle, total_fotos: photos.length, enviado_en: new Date().toISOString() },
+                    updated_at: new Date().toISOString()
+                };
+                if (exData.length > 0) {
+                    await fetch(`${SB_URL}/rest/v1/eventos_config?evento_id=eq.${EVENTO_ID}&seccion=eq.seleccion_fotos`, {
+                        method: 'PATCH', headers: H, body: JSON.stringify({ datos: payload.datos, updated_at: payload.updated_at })
+                    });
+                } else {
+                    await fetch(`${SB_URL}/rest/v1/eventos_config`, {
+                        method: 'POST', headers: H, body: JSON.stringify(payload)
+                    });
+                }
+                guardado = true;
+            } catch(e) { guardado = false; }
+
+            // Comentarios con ediciones especiales
+            const comentarios = [];
+            photos.forEach((photo, index) => {
+                const sel = selections[photo.name];
+                if (sel && sel.notes && sel.notes.trim()) {
+                    comentarios.push(`• #${index + 1} ${photo.filename}: ${sel.notes}`);
+                }
+            });
+
+            // Mensaje corto para WhatsApp
+            const fecha = new Date().toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' });
+            let mensaje = `💕 SELECCIÓN FOTOS — XV FLOR ISABEL\n`;
+            mensaje += `📅 ${fecha}\n\n`;
+            mensaje += `📊 RESUMEN (${photos.length} fotos totales):\n`;
+            mensaje += `🖼️ Ampliación: ${stats.ampliacion}\n`;
+            mensaje += `📸 Impresión: ${stats.impresion}\n`;
+            mensaje += `📱 Redes sociales: ${stats.redes_sociales}\n`;
+            mensaje += `🌐 Invitaciones web: ${stats.invitaciones_web}\n`;
+            mensaje += `❌ Descartadas: ${stats.descartada}\n`;
+            if (comentarios.length > 0) {
+                mensaje += `\n💬 Notas de edición:\n${comentarios.slice(0, 5).join('\n')}`;
+                if (comentarios.length > 5) mensaje += `\n... y ${comentarios.length - 5} más`;
             }
+            mensaje += `\n\n${guardado ? '✅ Selección completa guardada en sistema.' : '⚠️ Envío manual — guardar en sistema.'}`;
 
-            mensaje += `\n📅 Generado el: ${new Date().toLocaleString('es-MX')}\n`;
-
-            // Codificar mensaje para URL
-            const mensajeCodificado = encodeURIComponent(mensaje);
-
-            // Número de WhatsApp (deberás actualizarlo con el número correcto)
-            const whatsappURL = `https://wa.me/524779203776?text=${mensajeCodificado}`;
-
-            // Abrir WhatsApp
-            window.open(whatsappURL, '_blank');
-
-            alert('Abriendo WhatsApp para enviar tu selección...');
+            window.open(`https://wa.me/524779203776?text=${encodeURIComponent(mensaje)}`, '_blank');
         }
 
         // Limpiar selección
