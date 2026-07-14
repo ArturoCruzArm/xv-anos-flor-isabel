@@ -373,6 +373,10 @@
         <p><strong>XV Años de Flor Isabel</strong></p>
     </footer>
 
+    <!-- Load data scripts FIRST so defaultSelections and photos are available -->
+    <script src="default_selections.js?v=2"></script>
+    <script src="photos_list.js?v=2"></script>
+
     <script>
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
@@ -835,8 +839,6 @@
         }
     </script>
 
-    <script src="photos_list.js?v=2"></script>
-    <script src="default_selections.js?v=2"></script>
     <script src="visitas.js?v=2"></script>
     <script src="js/selector-sb-inline.js?v=2"></script>
     <script src="js/foro7-footer.js?v=2"></script>
