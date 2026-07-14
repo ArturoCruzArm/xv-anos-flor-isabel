@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -324,6 +325,7 @@
             <div class="action-buttons">
                 <button class="btn btn-copy" onclick="copiarResumen()"><i class="fas fa-clipboard"></i> Copiar Resumen</button>
                 <button class="btn btn-export" onclick="enviarWhatsApp()"><i class="fab fa-whatsapp"></i> Enviar Reporte</button>
+                <button class="btn btn-download" onclick="descargarTodasZIP()" style="background:#e17055;"><i class="fas fa-file-zipper"></i> Descargar Todas (ZIP)</button>
                 <button class="btn btn-download" onclick="descargarJSON()"><i class="fas fa-download"></i> Descargar JSON</button>
                 <button class="btn btn-clear" onclick="limpiarSeleccion()"><i class="fas fa-eraser"></i> Limpiar Todo</button>
             </div>
@@ -821,6 +823,61 @@
             a.click();
             URL.revokeObjectURL(a.href);
             showToast('Archivo JSON descargado', 'success');
+        }
+
+        async function descargarTodasZIP() {
+            var selected = [];
+            photos.forEach(function(p, i) {
+                var sel = selections[p.name];
+                if (sel && sel.categories && sel.categories.length > 0 && sel.categories.indexOf('descartada') === -1) {
+                    selected.push({ index: i, photo: p });
+                }
+            });
+            if (selected.length === 0) {
+                showToast('No hay fotos seleccionadas para descargar', 'error');
+                return;
+            }
+            if (!confirm('Se descargarán ' + selected.length + ' fotos en un archivo ZIP.\n\nEsto puede tardar unos minutos dependiendo de tu conexión.\n\n¿Continuar?')) return;
+
+            var loading = document.getElementById('loading');
+            loading.classList.add('active');
+            showToast('Preparando ZIP con ' + selected.length + ' fotos...', 'success');
+
+            try {
+                var zip = new JSZip();
+                var errors = 0;
+                for (var i = 0; i < selected.length; i++) {
+                    var item = selected[i];
+                    var filename = 'foto-' + (item.index + 1) + '.jpg';
+                    try {
+                        var resp = await fetch(item.photo.path, { mode: 'cors' });
+                        var blob = await resp.blob();
+                        // Convert WebP to JPG
+                        if (!blob.type.includes('jpeg') && !blob.type.includes('jpg')) {
+                            var bmp = await createImageBitmap(blob);
+                            var canvas = document.createElement('canvas');
+                            canvas.width = bmp.width; canvas.height = bmp.height;
+                            canvas.getContext('2d').drawImage(bmp, 0, 0);
+                            blob = await new Promise(function(res) { canvas.toBlob(res, 'image/jpeg', 0.95); });
+                        }
+                        zip.file(filename, blob);
+                        if ((i + 1) % 10 === 0) showToast('Procesando... ' + (i + 1) + '/' + selected.length, 'success');
+                    } catch(e) { errors++; }
+                }
+                showToast('Generando ZIP...', 'success');
+                var zipBlob = await zip.generateAsync({ type: 'blob' });
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(zipBlob);
+                a.download = 'fotos-xv-flor-isabel.zip';
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                setTimeout(function() { URL.revokeObjectURL(a.href); }, 5000);
+                showToast('ZIP descargado — ' + (selected.length - errors) + ' fotos', 'success');
+                if (errors > 0) showToast(errors + ' fotos no se pudieron incluir', 'error');
+            } catch(e) {
+                showToast('Error al crear el ZIP: ' + e.message, 'error');
+            } finally {
+                loading.classList.remove('active');
+            }
         }
 
         function limpiarSeleccion() {
